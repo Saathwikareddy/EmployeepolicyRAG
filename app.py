@@ -33,11 +33,12 @@ def load_rag_system():
     faiss_index.add(embeddings)
     
     # Step D: Initialize the Text Generation Pipeline
+# NEW CODE
     llm_pipeline = pipeline(
         "text-generation",
         model="TinyLlama/TinyLlama-1.1B-Chat-v1.0",
-        torch_dtype=torch.bfloat16 if torch.cuda.is_available() else torch.float32,
-        device_map="auto"
+        torch_dtype=torch.float32,  # Best for CPU inference stability
+        device="cpu"                # Forces execution on the hosting server's CPU
     )
     
     return embed_model, faiss_index, policy_chunks, llm_pipeline
